@@ -50,7 +50,7 @@ DECLARE @start_time DATETIME,@end_time DATETIME,@batch_start_time DATETIME,@batc
 		FROM (
 		SELECT *,
 		ROW_NUMBER() OVER (PARTITION BY cst_id ORDER BY cst_create_date DESC) AS flag_last
-		FROM bronze.crm_cust_info) t WHERE flag_last = 1
+		FROM bronze.crm_cust_info WHERE cst_id IS NOT NULL) t WHERE flag_last = 1
 		SET @end_time = GETDATE();
 		PRINT('Time of insertion: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds')
 		PRINT('--------------------------')
